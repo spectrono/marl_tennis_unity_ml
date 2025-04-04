@@ -1,7 +1,7 @@
 from unityagents import UnityEnvironment
 
 
-def setup_tennis_environment():
+def setup_tennis_environment(use_headless=True):
     '''
     Simplifies the setup of the UnityEnvironment and return only what is really needed for training.
 
@@ -16,7 +16,10 @@ def setup_tennis_environment():
 
     '''
     print('\n>>>>>>>>>>>>>>> Setting up environment <<<<<<<<<<<<<<<\n\n')
-    env = UnityEnvironment(file_name='Tennis_Linux_NoVis/Tennis.x86')
+    if use_headless:
+        env = UnityEnvironment(file_name='Tennis_Linux_NoVis/Tennis.x86')
+    else:
+        env = UnityEnvironment(file_name='Tennis_Linux/Tennis.x86_64')
     print(env.brain_names)
 
     brain_name = env.brain_names[0]

@@ -7,14 +7,14 @@ class UnityMLTennisEnvironmentAdapter:
     After setup, it reduces the amount of code needed to interact with the environment.
     '''
 
-    def __init__(self):
+    def __init__(self, use_headless=True):
         '''
         Initializes the environment adapter.
 
         Sets up the Unity ML Tennis environment and the brain.
         Configures the number of agents to 2, as required by the tennis environment.
         '''
-        self.env, self.brain_name, self.agent_count, self.action_size, self.observation_size = setup_tennis_environment()
+        self.env, self.brain_name, self.agent_count, self.action_size, self.observation_size = setup_tennis_environment(use_headless)
         self.brain = self.env.brains[self.brain_name]
         self.observations_current = None
         self.observations_next = None
