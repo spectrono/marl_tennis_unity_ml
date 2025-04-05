@@ -172,3 +172,15 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# UnityML environments
+Tennis_Linux/
+Tennis_Linux_NoVis/
+playground/
+
+# Tests
+tests/
+pytest.ini
+
+# vs code
+.vscode
