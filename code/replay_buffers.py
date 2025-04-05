@@ -25,7 +25,7 @@ class MultiAgentPrioritizedReplayBufferNStep:
             buffer_size,
             batch_size,
             device_type,
-            seed,
+            random_seed,
             n_steps,
             gamma=0.99,
             alpha=0.6,
@@ -37,7 +37,7 @@ class MultiAgentPrioritizedReplayBufferNStep:
             buffer_size (int): Maximum number of experiences to store in the buffer.
             batch_size (int): Number of experiences to sample in each batch.
             device_type (str): Device to store tensors (e.g., 'cuda' or 'cpu').
-            seed (int): Random seed for reproducibility.
+            random_seed (int): Random seed for reproducibility.
             n_step (int): Number of steps to consider for N-step returns.
             gamma (float): Discount factor for future rewards.
             alpha (float): Priority exponent (controls how much prioritization is used).
@@ -49,7 +49,7 @@ class MultiAgentPrioritizedReplayBufferNStep:
         self.buffer_size = buffer_size
         self.batch_size = batch_size
         self.device_type = device_type
-        self.seed = random.seed(seed)
+        self.random_seed = random.seed(random_seed)
         self.n_steps = n_steps
         self.gamma = gamma
         self.gamma_cumulative = np.array([self.gamma ** step_idx for step_idx in range(self.n_steps)])
