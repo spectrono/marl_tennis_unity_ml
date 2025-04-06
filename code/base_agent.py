@@ -5,7 +5,7 @@ import numpy as np
 
 
 class BaseAgent(nn.Module):
-    def __init__(self, device_type='cpu', gamma=0.99, n_steps=1, buffer_size=100000, batch_size=64, tau=1e-3, random_seed=None):
+    def __init__(self, device_type='cpu', gamma=0.99, n_steps=1, buffer_size=100000, batch_size=64, lr_actor=1e-4, lr_critic=1e-4, tau=1e-3, random_seed=None):
         super(BaseAgent, self).__init__()
         self.device_type = torch.device(device_type)
         self.gamma = gamma
@@ -25,8 +25,8 @@ class BaseAgent(nn.Module):
             'mean_Q_value': [],
             'mean_td_error': []
         }
-        self.lr_actor = 3e-4
-        self.lr_critic = 3e-4
+        self.lr_actor = lr_actor
+        self.lr_critic = lr_critic
         self.tau = tau
 
         # Set random seed for reproducibility

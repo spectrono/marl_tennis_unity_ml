@@ -52,7 +52,7 @@ class SACAgent(BaseAgent):
         - tau (float): Soft update coefficient for target networks.
         - alpha (float): Initial entropy coefficient.
         """
-        super().__init__(device_type=device_type, gamma=gamma, n_steps=n_steps, buffer_size=buffer_size, batch_size=batch_size, random_seed=random_seed, tau=tau)
+        super().__init__(device_type=device_type, gamma=gamma, n_steps=n_steps, buffer_size=buffer_size, batch_size=batch_size, lr_actor=lr_actor, lr_critic=lr_critic, random_seed=random_seed, tau=tau)
 
         self.state_size = state_size
         self.action_size = action_size

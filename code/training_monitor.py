@@ -75,20 +75,36 @@ class TrainingMonitor:
         plt.close()
 
     def save_agent_parameters_as_json(self, directory):
+        """
+        Save the logged agent parameters to disk as JSON files.
+
+        Args:
+            directory (str): The directory where the JSON files will be saved.
+        """
+        if not os.path.exists(directory):
+            os.makedirs(directory)  # Ensure the directory exists
+
+        def custom_serializer(obj):
             """
-            Save the logged agent parameters to disk as JSON files.
-
-            Args:
-                directory (str): The directory where the JSON files will be saved.
+            Custom serializer to handle non-serializable objects.
+            Non-serializable objects will be replaced with a string indicating their type.
             """
-            if not os.path.exists(directory):
-                os.makedirs(directory)  # Ensure the directory exists
+            try:
+                json.dumps(obj)  # Test if the object is serializable
+                return obj
+            except (TypeError, OverflowError):
+                if (type(obj).__name__ == 'device'):
+                    if (obj.type == 'cuda'):
+                        return 'cuda'
+                    elif (obj.type == 'cpu'):
+                        return 'cpu'
+                else:
+                    return f"<Non-serializable: {type(obj).__name__}>"
 
-            for agent_id, parameters in self.agent_parameters.items():
-                file_path = os.path.join(directory, f"agent_parameters_{agent_id}.json")
-                with open(file_path, 'w') as json_file:
-                    json.dump(parameters, json_file, indent=4)  # Save parameters as a JSON file
-
+        for agent_id, parameters in self.agent_parameters.items():
+            file_path = os.path.join(directory, f"agent_parameters_{agent_id}.json")
+            with open(file_path, 'w') as json_file:
+                json.dump(parameters, json_file, indent=4, default=custom_serializer)
 
     def save_agent_network_architectures_as_json(self, directory):
         """
