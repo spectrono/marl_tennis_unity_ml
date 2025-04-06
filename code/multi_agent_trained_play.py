@@ -1,3 +1,4 @@
+import argparse
 import json
 from os import path
 import numpy as np
@@ -18,7 +19,9 @@ def trained_play(
         env_adapter (UnityMLTennisEnvironmentAdapter): The environment adapter for the Unity ML Tennis environment.
         number_of_episodes_to_play (int): The number of episodes to play.
         path_to_trained_model_agent_0 (str): Path to the trained model for agent 0.
+        path_to_parameters_agent_0 (str): Path to the parameters for agent 0.
         path_to_trained_model_agent_1 (str): Path to the trained model for agent 1.
+        path_to_parameters_agent_1 (str): Path to the parameters for agent 1.
 
     This function will play a specified number of episodes in the Unity ML Tennis environment
     using two trained agents. It tracks and prints the best score achieved across
@@ -85,19 +88,27 @@ if __name__ == "__main__":
     """
     Main function to create the Unity ML Tennis environment and play with trained agents.
     """
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="Play episodes in the Unity ML Tennis environment using trained agents.")
+    parser.add_argument("--number_of_episodes_to_play", type=int, default=200, help="Number of episodes to play.")
+    parser.add_argument("--path_to_trained_model_agent_0", type=str, default="logs/solved_agent0_at_episode_1804.pth", help="Path to the trained model for agent 0.")
+    parser.add_argument("--path_to_parameters_agent_0", type=str, default="logs/agent_parameters_0.json", help="Path to the parameters for agent 0.")
+    parser.add_argument("--path_to_trained_model_agent_1", type=str, default="logs/solved_agent1_at_episode_1804.pth", help="Path to the trained model for agent 1.")
+    parser.add_argument("--path_to_parameters_agent_1", type=str, default="logs/agent_parameters_1.json", help="Path to the parameters for agent 1.")
+    args = parser.parse_args()
+
     # Create the tennis environment
     env_adapter = UnityMLTennisEnvironmentAdapter(use_headless=False)
 
-    # Play 200 episodes with random actions
+    # Call the trained_play function with parsed arguments
     trained_play(
         env_adapter,
-        number_of_episodes_to_play=200,
-        path_to_trained_model_agent_0='logs/solved/solved_agent0_at_episode_1804.pth',
-        path_to_parameters_agent_0='logs/agent_parameters_0.json',
-        path_to_trained_model_agent_1='logs/solved/solved_agent1_at_episode_1804.pth',
-        path_to_parameters_agent_1='logs/agent_parameters_1.json')
+        number_of_episodes_to_play=args.number_of_episodes_to_play,
+        path_to_trained_model_agent_0=args.path_to_trained_model_agent_0,
+        path_to_parameters_agent_0=args.path_to_parameters_agent_0,
+        path_to_trained_model_agent_1=args.path_to_trained_model_agent_1,
+        path_to_parameters_agent_1=args.path_to_parameters_agent_1)
 
     # Close the environment
     env_adapter.close()
     print("Environment closed.")
-
